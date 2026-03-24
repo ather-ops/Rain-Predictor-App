@@ -10,7 +10,7 @@ from sklearn.metrics import accuracy_score,confusion_matrix,classification_repor
 
 # step 2: Load data
 print("=="*30)
-df=pd.read_csv("Rain_prediction.txt")
+df=pd.read_csv("Rain_prediction.csv")
 print("Original data :\n",df)
 print("=="*30)
 
@@ -72,16 +72,12 @@ print("=="*30)
 df["Temperature_C"]=df["Temperature_C"].fillna(df["Temperature_C"].mean())
 print("After filling missing values :\n",df)
 print("=="*30)
-# step 6:Convertiong high and low into numeric in humidity
+# step 6: Conversion of high and low into numeric in humidity
 df["Humidity_Percent"]=df["Humidity_Percent"].replace("high",85)
 df["Humidity_Percent"]=df["Humidity_Percent"].replace("low",45)
 
 df["Humidity_Percent"]=pd.to_numeric(df["Humidity_Percent"],errors="coerce")
-# STEP 7: BINNING (MISSING)
-print("="*60)
-print("FEATURE ENGINEERING - BINNING")
-print("="*60)
-
+# STEP 7: Binning /Buckting
 # Temperature binning
 bins_temp = [0, 15, 25, 35, 50]
 labels_temp = ["Very Cold", "Cold", "Warm", "Hot"]
@@ -100,10 +96,7 @@ df["Wind_Bin"] = pd.cut(df["Wind_Speed_kmh"], bins=bins_wind, labels=labels_wind
 print("Binning completed!")
 print(df[["Temperature_C", "Temp_Bin", "Humidity_Percent", "Humidity_Bin", "Wind_Speed_kmh", "Wind_Bin"]].head())
 
-# STEP 8: ONE-HOT ENCODING (MISSING)
-print("="*60)
-print("ONE-HOT ENCODING")
-print("="*60)
+# STEP 8: One-Hot-Encoder
 
 # One-hot encode categorical features
 df_encoded = pd.get_dummies(df, columns=["Temp_Bin", "Humidity_Bin", "Wind_Bin"], 
@@ -118,11 +111,7 @@ print("One-hot encoding completed!")
 print(f"Original columns: {len(df.columns)}")
 print(f"After encoding: {len(df_encoded.columns)}")
 
-
-# Replace STEP 9 with this:
-
-# step 9: Feature and target (FIXED)
-# Use df_encoded instead of df
+# step 9: Feature and target 
 X = df_encoded[["Temperature_C","Humidity_Percent","Wind_Speed_kmh","Cloud_Cover","Pressure_hPa"]]
 
 # Add all dummy columns from one-hot encoding
@@ -150,7 +139,7 @@ model.fit(X_train_scaled,Y_train)
 y_pred=model.predict(X_test_Scaled)
 y_prob=model.predict_proba(X_test_Scaled)
 print("=="*45)
-# step 14: Evalution
+# step 14: Evaluation
 print("Accuracy:",accuracy_score(Y_test,y_pred))
 print("Classification report:",classification_report(Y_test,y_pred))
 print("Confusion matrix:",confusion_matrix(Y_test,y_pred))
@@ -163,7 +152,7 @@ print("="*60)
 
 fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 
-# Confusion matrix visualization
+# Confusion matrix visualisation
 cm = confusion_matrix(Y_test, y_pred)
 im = axes[0,0].imshow(cm, cmap='Blues')
 axes[0,0].set_title("Confusion Matrix")
