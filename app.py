@@ -63,7 +63,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Header
-st.markdown('<div class="main-header"><h1>🌧️ Rain Tomorrow Predictor</h1><p>Weather-based rainfall prediction system</p></div>', unsafe_allow_html=True)
+st.markdown('<div class="main-header"><h1>Rain Tomorrow Predictor</h1><p>Weather-based rainfall prediction system</p></div>', unsafe_allow_html=True)
 
 # Load model
 @st.cache_resource
@@ -85,7 +85,7 @@ with st.sidebar:
     st.header("Weather Parameters")
     st.markdown("---")
     
-    temperature = st.slider("Temperature (°C)", -10.0, 50.0, 25.0, 0.5)
+    temperature = st.slider("Temperature (C)", -10.0, 50.0, 25.0, 0.5)
     humidity = st.slider("Humidity (%)", 0, 100, 65)
     wind_speed = st.slider("Wind Speed (km/h)", 0, 100, 15)
     cloud_cover = st.slider("Cloud Cover", 0, 8, 4)
@@ -98,17 +98,17 @@ with st.sidebar:
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.markdown('<div class="metric-card"><h3>Temperature</h3><p style="font-size: 24px; font-weight: bold;">{}°C</p></div>'.format(temperature), unsafe_allow_html=True)
+    st.markdown(f'<div class="metric-card"><h3>Temperature</h3><p style="font-size: 24px; font-weight: bold;">{temperature} C</p></div>', unsafe_allow_html=True)
 
 with col2:
-    st.markdown('<div class="metric-card"><h3>Humidity</h3><p style="font-size: 24px; font-weight: bold;">{}%</p></div>'.format(humidity), unsafe_allow_html=True)
+    st.markdown(f'<div class="metric-card"><h3>Humidity</h3><p style="font-size: 24px; font-weight: bold;">{humidity}%</p></div>', unsafe_allow_html=True)
 
 with col3:
-    st.markdown('<div class="metric-card"><h3>Wind Speed</h3><p style="font-size: 24px; font-weight: bold;">{} km/h</p></div>'.format(wind_speed), unsafe_allow_html=True)
+    st.markdown(f'<div class="metric-card"><h3>Wind Speed</h3><p style="font-size: 24px; font-weight: bold;">{wind_speed} km/h</p></div>', unsafe_allow_html=True)
 
 # Model status
 if model is None:
-    st.warning("⚠️ Model not found! Please train the model first using your Python script.")
+    st.warning("Model not found! Please train the model first using your Python script.")
     st.info("Run: python rain_prediction.py to train and save the model")
     st.stop()
 
@@ -138,7 +138,7 @@ if predict_button:
         if prediction == 1:
             st.markdown(f"""
             <div class="prediction-box rain">
-                <h2>🌧️ RAIN TOMORROW!</h2>
+                <h2>Rain Tomorrow!</h2>
                 <h3>Probability: {probability[1]*100:.1f}%</h3>
                 <p>Carry an umbrella with you</p>
             </div>
@@ -146,7 +146,7 @@ if predict_button:
         else:
             st.markdown(f"""
             <div class="prediction-box no-rain">
-                <h2>☀️ NO RAIN TOMORROW</h2>
+                <h2>No Rain Tomorrow</h2>
                 <h3>Probability: {probability[1]*100:.1f}%</h3>
                 <p>Enjoy the weather!</p>
             </div>
@@ -178,7 +178,7 @@ if predict_button:
 
 # Data Upload Section
 st.markdown("---")
-st.subheader("📊 Upload Weather Data for Batch Prediction")
+st.subheader("Upload Weather Data for Batch Prediction")
 
 uploaded_file = st.file_uploader("Upload CSV file", type=['csv'])
 
@@ -236,9 +236,7 @@ if uploaded_file:
             )
 
 # Instructions
-with st.expander("📖 How to Use"):
+with st.expander("How to Use"):
     st.markdown("""
     **Step 1: Train the Model**  
     First run your Python script to train and save the model:
-    ```bash
-    python rain_prediction.py
